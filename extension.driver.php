@@ -451,24 +451,26 @@ Class extension_author_roles extends Extension
 
 	// return all ancestors of the given element with the given names
 	// names can be a comma seperated list or an array of strings
-	private static function findChildren(XMLElement $element, $names) {
-		if(!is_array($names)) {
-			$names = explode(',', $names);
-		}
-
-		$children = array();
-
-		foreach($element->getChildren() as $child) {
-			if(!($child instanceof XMLElement)) continue;
-
-			$children = array_merge($children, self::findChildren($child,$names));
-
-			if(in_array($child->getName(), $names )) {
-				$children[] = $child;
-			}
-		}
-
-		return $children;
+	private static function findChildren($element, $names) {
+	        if(!is_array($names)) {
+	        	$names = explode(',', $names);
+	        }
+	
+	        $children = array();
+	
+	        if (!($element instanceof XMLElement)) {
+	        	return $children;
+	        }
+	
+	        foreach($element->getChildren() as $child) {
+	        	$children = array_merge($children, self::findChildren($child,$names));
+	
+	        	if($child instanceof XMLElement && in_array($child->getName(), $names )) {
+	        		$children[] = $child;
+	        	}
+	        }
+	
+	        return $children;
 	}
 
 	// replaces the first ancestor of the first argument which

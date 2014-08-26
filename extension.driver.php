@@ -256,9 +256,11 @@ Class extension_author_roles extends Extension
 					$children = current($context['oPage']->Context->getChildrenByName('ul'))->getChildrenByName('li');
 
 					foreach($children as $key => $child) {
-						if(strpos($child->getValue(),__('Create New')) !== false) {
-							$value = $child->getValue();
-							$child->setValue('<span>'.strip_tags(str_replace(__('Create New'), '', $value)).'</span><span class="create" />');
+						$xChild = $child->getValue();
+						$value = $xChild->getValue();
+						if(is_string($value) && strpos($value,__('Create New')) !== false) {
+							$child->removeChildAt(0);
+							$child->setValue('');
 						}
 					}
 				}
@@ -449,7 +451,7 @@ Class extension_author_roles extends Extension
 
 	// return all ancestors of the given element with the given names
 	// names can be a comma seperated list or an array of strings
-	private static function findChildren($element, $names) {
+	private static function findChildren(XMLElement $element, $names) {
 		if(!is_array($names)) {
 			$names = explode(',', $names);
 		}
@@ -457,6 +459,8 @@ Class extension_author_roles extends Extension
 		$children = array();
 
 		foreach($element->getChildren() as $child) {
+			if(!($child instanceof XMLElement)) continue;
+
 			$children = array_merge($children, self::findChildren($child,$names));
 
 			if(in_array($child->getName(), $names )) {

@@ -19,7 +19,7 @@
 		 * Build the page
 		 * @param array $context
 		 */
-		public function build($context)
+		public function build(array $context = array())
 		{
 			if(Administration::instance()->Author()->isDeveloper()) {
 				if($_POST['with-selected'] == 'delete' && is_array($_POST['items']))

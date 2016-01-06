@@ -475,6 +475,9 @@ Class extension_author_roles extends Extension
 	// name matches the name of the second argument with
 	// the second argument
 	private static function replaceChild($parent, $child) {
+		
+		if(!is_array($child)) return false;
+		
 		foreach($parent->getChildren() as $position => $oldChild) {
 			if($oldChild->getName() == $child->getName()) {
 				$parent->replaceChildAt($position,$child);

@@ -24,5 +24,8 @@
 			to Symphony to make sure the 'Author Roles'-extension is executed as last, after all other extensions have
 			made their possible modifications to the navigation. Read the readme for more details.
 		</release>
+		<release version="1.3" date="2016-01-26" min="2.3">
+			Bugfix for replaceChild function not returning an array.
+		</release>
 	</releases>
 </extension>
